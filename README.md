@@ -1,23 +1,37 @@
-# 🖥️ Network Monitor
+# 🌐 Network Monitor
 
-Dashboard web para monitoramento de servidores e sites em tempo real.
+Dashboard web para monitoramento visual de sites e serviços.
 
-## O que faz
-- Verifica se servidores estão online ou offline
-- Mede o tempo de resposta em milissegundos
-- Exibe tudo em um dashboard web com interface escura
+## Funcionalidades
 
-## Tecnologias usadas
-- Python
-- Flask
-- Requests
+- Adição e remoção dinâmica de sites
+- Verificação de disponibilidade
+- Exibição de tempo de resposta
+- Atualização automática dos status
+- Interface moderna e responsiva
 
-## Como rodar
+## Tecnologias Utilizadas
 
-### Online
-Acesse diretamente: https://network-monitor-i8ft.onrender.com
+- HTML5
+- CSS3
+- JavaScript (Vanilla JS)
 
-### Localmente
-1. Instale as dependências: pip install flask requests
-2. Rode o projeto: python app.py
-3. Acesse no navegador: http://127.0.0.1:5000
+## Objetivo
+
+Projeto desenvolvido para praticar desenvolvimento front-end, manipulação do DOM, consumo de requisições HTTP e construção de dashboards interativos.
+
+## Como Executar
+
+1. Clone o repositório
+
+git clone https://github.com/EdsonSilvaJr08/network-monitor.git
+
+2. Abra o arquivo
+
+index.html
+
+3. Execute no navegador de sua preferência.
+
+## Autor
+
+Edson Junior
