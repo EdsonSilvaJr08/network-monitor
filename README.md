@@ -2,36 +2,23 @@
 
 Dashboard web para monitoramento visual de sites e serviços.
 
+🔗 Demo Online:
+https://edsonsilvajr08.github.io/network-monitor/
+
 ## Funcionalidades
 
-- Adição e remoção dinâmica de sites
+- Adição e remoção de sites
 - Verificação de disponibilidade
-- Exibição de tempo de resposta
-- Atualização automática dos status
-- Interface moderna e responsiva
+- Exibição do tempo de resposta
+- Atualização automática
+- Interface responsiva
 
 ## Tecnologias Utilizadas
 
 - HTML5
 - CSS3
-- JavaScript (Vanilla JS)
+- JavaScript
 
 ## Objetivo
 
-Projeto desenvolvido para praticar desenvolvimento front-end, manipulação do DOM, consumo de requisições HTTP e construção de dashboards interativos.
-
-## Como Executar
-
-1. Clone o repositório
-
-git clone https://github.com/EdsonSilvaJr08/network-monitor.git
-
-2. Abra o arquivo
-
-index.html
-
-3. Execute no navegador de sua preferência.
-
-## Autor
-
-Edson Junior
+Projeto desenvolvido para praticar desenvolvimento front-end, manipulação do DOM, requisições HTTP e construção de dashboards interativos.
