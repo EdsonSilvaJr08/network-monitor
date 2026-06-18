@@ -1,24 +1,7 @@
-# 🌐 Network Monitor
+🖥️ Network Monitor
 
-Dashboard web para monitoramento visual de sites e serviços.
+Dashboard web para monitoramento em tempo real de sites e serviços.
 
-🔗 Demo Online:
-https://edsonsilvajr08.github.io/network-monitor/
+Permite verificar disponibilidade, medir tempo de resposta e acompanhar o status de aplicações de forma contínua, com atualização automática da interface.
 
-## Funcionalidades
-
-- Adição e remoção de sites
-- Verificação de disponibilidade
-- Exibição do tempo de resposta
-- Atualização automática
-- Interface responsiva
-
-## Tecnologias Utilizadas
-
-- HTML5
-- CSS3
-- JavaScript
-
-## Objetivo
-
-Projeto desenvolvido para praticar desenvolvimento front-end, manipulação do DOM, requisições HTTP e construção de dashboards interativos.
+🔗 Demo: https://edsonsilvajr08.github.io/network-monitor/
