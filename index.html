@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Network Monitor — Edson Junior</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: #1e1e2e;
+      --accent: #7c3aed;
+      --accent-light: #a78bfa;
+      --accent-glow: rgba(124,58,237,0.15);
+      --text: #e2e2f0;
+      --muted: #6b6b8a;
+      --green: #4ade80;
+      --red: #f87171;
+      --yellow: #fbbf24;
+      --font: 'Space Grotesk', sans-serif;
+      --mono: 'Space Mono', monospace;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      min-height: 100vh;
+      padding: 3rem 1.5rem;
+    }
+
+    .container { max-width: 800px; margin: 0 auto; }
+
+    /* HEADER */
+    .header { margin-bottom: 2.5rem; }
+    .header-tag {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--accent-light);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.75rem;
+    }
+    .header h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+    .header h1 span {
+      background: linear-gradient(135deg, var(--accent-light), #c084fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .header p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .last-update {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .last-update span { color: var(--accent-light); }
+
+    /* STATS */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+    }
+
+    .stat-label {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .stat-value.green { color: var(--green); }
+    .stat-value.red { color: var(--red); }
+    .stat-value.purple { color: var(--accent-light); }
+
+    /* CONTROLES */
+    .controls {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .input-url {
+      flex: 1;
+      min-width: 200px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--font);
+      font-size: 0.9rem;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .input-url:focus { border-color: var(--accent); }
+    .input-url::placeholder { color: var(--muted); }
+
+    .btn {
+      font-family: var(--font);
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 0.75rem 1.3rem;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: #6d28d9; transform: translateY(-2px); }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { border-color: var(--accent-light); color: var(--accent-light); }
+
+    /* TABELA */
+    .table-wrapper {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    table { width: 100%; border-collapse: collapse; }
+
+    thead { background: #0f0f18; }
+
+    th {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 1rem 1.2rem;
+      text-align: left;
+    }
+
+    td {
+      padding: 1rem 1.2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    tr:hover td { background: rgba(124,58,237,0.04); }
+
+    .site-name { font-weight: 600; color: #fff; }
+    .site-url { color: var(--muted); font-size: 0.8rem; font-family: var(--mono); }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0.3rem 0.8rem;
+      border-radius: 999px;
+    }
+
+    .badge-online { background: rgba(74,222,128,0.1); color: var(--green); }
+    .badge-offline { background: rgba(248,113,113,0.1); color: var(--red); }
+    .badge-checking { background: var(--accent-glow); color: var(--accent-light); }
+
+    .badge::before {
+      content: '';
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .ms { font-family: var(--mono); color: var(--accent-light); font-size: 0.85rem; }
+    .ms-dash { color: var(--muted); }
+
+    .delete-row {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+      transition: all 0.2s;
+    }
+    .delete-row:hover { color: var(--red); background: rgba(248,113,113,0.1); }
+
+    /* FOOTER */
+    .footer {
+      margin-top: 2rem;
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      th:nth-child(3), td:nth-child(3) { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <p class="header-tag">// network monitor</p>
+    <h1>🖥️ Network <span>Monitor</span></h1>
+    <div class="header-meta">
+      <p>Monitoramento de servidores em tempo real</p>
+      <p class="last-update">Atualizado: <span id="lastUpdate">—</span></p>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Online</div>
+      <div class="stat-value green" id="onlineCount">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Offline</div>
+      <div class="stat-value red" id="offlineCount">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Total</div>
+      <div class="stat-value purple" id="totalCount">0</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <input class="input-url" id="newUrl" type="text" placeholder="Ex: https://github.com"/>
+    <button class="btn btn-primary" onclick="addSite()">+ Adicionar</button>
+    <button class="btn btn-secondary" onclick="checkAll()">↻ Verificar todos</button>
+  </div>
+
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>Site</th>
+          <th>Status</th>
+          <th>Tempo de resposta</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="siteList"></tbody>
+    </table>
+  </div>
+
+</div>
+
+<div class="footer">feito por edson junior · html, css & javascript</div>
+
+<script>
+  let sites = [
+    { id: 1, name: 'Google', url: 'https://www.google.com' },
+    { id: 2, name: 'GitHub', url: 'https://www.github.com' },
+    { id: 3, name: 'Cloudflare', url: 'https://www.cloudflare.com' },
+    { id: 4, name: 'Amazon AWS', url: 'https://aws.amazon.com' },
+    { id: 5, name: 'Stack Overflow', url: 'https://stackoverflow.com' },
+  ].map(s => ({ ...s, status: 'checking', ms: null }));
+
+  function addSite() {
+    const input = document.getElementById('newUrl');
+    let url = input.value.trim();
+    if (!url) return;
+    if (!url.startsWith('http')) url = 'https://' + url;
+
+    const name = url.replace(/https?:\/\/(www\.)?/, '').split('/')[0];
+    const id = Date.now();
+    sites.push({ id, name, url, status: 'checking', ms: null });
+    input.value = '';
+    render();
+    checkSite(id);
+  }
+
+  function removeSite(id) {
+    sites = sites.filter(s => s.id !== id);
+    render();
+    updateStats();
+  }
+
+  async function checkSite(id) {
+    const site = sites.find(s => s.id === id);
+    if (!site) return;
+
+    site.status = 'checking';
+    site.ms = null;
+    render();
+
+    const start = performance.now();
+    try {
+      await fetch(site.url, { mode: 'no-cors', cache: 'no-cache' });
+      const ms = Math.round(performance.now() - start);
+      site.status = 'online';
+      site.ms = ms;
+    } catch {
+      site.status = 'offline';
+      site.ms = null;
+    }
+
+    render();
+    updateStats();
+  }
+
+  function checkAll() {
+    sites.forEach(s => checkSite(s.id));
+  }
+
+  function updateStats() {
+    document.getElementById('onlineCount').textContent = sites.filter(s => s.status === 'online').length;
+    document.getElementById('offlineCount').textContent = sites.filter(s => s.status === 'offline').length;
+    document.getElementById('totalCount').textContent = sites.length;
+    const now = new Date();
+    document.getElementById('lastUpdate').textContent =
+      now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+  }
+
+  function render() {
+    const tbody = document.getElementById('siteList');
+    tbody.innerHTML = sites.map(site => `
+      <tr>
+        <td>
+          <div class="site-name">${site.name}</div>
+          <div class="site-url">${site.url}</div>
+        </td>
+        <td>
+          <span class="badge badge-${site.status}">
+            ${site.status === 'online' ? 'Online' : site.status === 'offline' ? 'Offline' : 'Verificando...'}
+          </span>
+        </td>
+        <td>
+          ${site.ms ? `<span class="ms">${site.ms} ms</span>` : `<span class="ms-dash">—</span>`}
+        </td>
+        <td>
+          <button class="delete-row" onclick="removeSite(${site.id})">✕</button>
+        </td>
+      </tr>
+    `).join('');
+
+    updateStats();
+  }
+
+  document.getElementById('newUrl').addEventListener('keydown', e => {
+    if (e.key === 'Enter') addSite();
+  });
+
+  // Iniciar verificação
+  render();
+  checkAll();
+
+  // Auto refresh a cada 60 segundos
+  setInterval(checkAll, 60000);
+</script>
+
+</body>
+</html>
