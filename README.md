@@ -14,11 +14,10 @@ Dashboard web para monitoramento de servidores e sites em tempo real.
 
 ## Como rodar
 
-1. Instale as dependências:
-pip install flask requests
+### Online
+Acesse diretamente: https://network-monitor-i8ft.onrender.com
 
-2. Rode o projeto:
-python app.py
-
-3. Acesse no navegador:
-http://127.0.0.1:5000
+### Localmente
+1. Instale as dependências: pip install flask requests
+2. Rode o projeto: python app.py
+3. Acesse no navegador: http://127.0.0.1:5000
